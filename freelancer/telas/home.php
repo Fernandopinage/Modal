@@ -172,9 +172,15 @@ $con = ConnectFactory::getConection();
                     @$max = $_POST['max'];
                     @$min = $_POST['min'];
 
+                 
+                    if (empty($select)) {
+                        $sql = "select candidato_id,candidato_nome,candidato_email,candidato_telefone,candidato_salario,cargo_nome from candidatos
+                        inner join cargos on cargo_id = candidato_cargo where 1" ;
+                    } else {
 
-                    $sql = "select candidato_id,candidato_nome,candidato_email,candidato_telefone,candidato_salario,cargo_nome from candidatos
-                     inner join cargos on cargo_id = candidato_cargo WHERE cargo_nome = '$select' ";
+                        $sql = "select candidato_id,candidato_nome,candidato_email,candidato_telefone,candidato_salario,cargo_nome from candidatos
+                         inner join cargos on cargo_id = candidato_cargo WHERE cargo_nome = '$select'  ";
+                    }
                     $select =  $con->prepare($sql);
                     $select->execute();
 
