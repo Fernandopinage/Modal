@@ -147,3 +147,7 @@ legend {
 .legend{
   color: #eeeeee;
 }
+.scroll {
+  height: 480px;
+  overflow-y: scroll;
+}

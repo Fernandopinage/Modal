@@ -150,85 +150,87 @@ $con = ConnectFactory::getConection();
         <br>
 
         <!-- Tabela -->
-        <table class="table table-hover">
-            <thead>
-                <tr class="table-active">
+        <div class="scroll">
 
-                    <th scope="col">Nome</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Tel</th>
-                    <th scope="col">Pret Salarial</th>
-                    <th scope="col">Vaga Interesse</th>
-                    <th scope="col">Visualizar</th>
-                    <th scope="col">Curriculo</th>
-                    <th scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <?php
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-active">
 
-                    @$select = $_POST["select"];
-                    @$max = $_POST['max'];
-                    @$min = $_POST['min'];
+                        <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Tel</th>
+                        <th scope="col">Pret Salarial</th>
+                        <th scope="col">Vaga Interesse</th>
+                        <th scope="col">Visualizar</th>
+                        <th scope="col">Curriculo</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <?php
 
-                 
-                    if (empty($select)) {
-                        $sql = "select candidato_id,candidato_nome,candidato_email,candidato_telefone,candidato_salario,cargo_nome from candidatos
-                        inner join cargos on cargo_id = candidato_cargo where 1" ;
-                    } else {
+                        @$select = $_POST["select"];
+                        @$max = $_POST['max'];
+                        @$min = $_POST['min'];
 
-                        $sql = "select candidato_id,candidato_nome,candidato_email,candidato_telefone,candidato_salario,cargo_nome from candidatos
+
+                        if (empty($select)) {
+                            $sql = "select candidato_id,candidato_nome,candidato_email,candidato_telefone,candidato_salario,cargo_nome from candidatos
+                        inner join cargos on cargo_id = candidato_cargo where 1";
+                        } else {
+
+                            $sql = "select candidato_id,candidato_nome,candidato_email,candidato_telefone,candidato_salario,cargo_nome from candidatos
                          inner join cargos on cargo_id = candidato_cargo WHERE cargo_nome = '$select'  ";
-                    }
-                    $select =  $con->prepare($sql);
-                    $select->execute();
+                        }
+                        $select =  $con->prepare($sql);
+                        $select->execute();
 
-                    while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
+                        while ($row = $select->fetch(PDO::FETCH_ASSOC)) {
 
-                    ?>
-                <tr>
-                    <td><?php echo $row['candidato_nome'] ?> </td>
-                    <td><?php echo $row['candidato_email'] ?> </td>
-                    <td><?php echo $row['candidato_telefone'] ?> </td>
-                    <td><?php echo $row['candidato_salario'] ?> </td>
-                    <td><?php echo $row['cargo_nome'] ?> </td>
+                        ?>
+                    <tr>
+                        <td><?php echo $row['candidato_nome'] ?> </td>
+                        <td><?php echo $row['candidato_email'] ?> </td>
+                        <td><?php echo $row['candidato_telefone'] ?> </td>
+                        <td><?php echo $row['candidato_salario'] ?> </td>
+                        <td><?php echo $row['cargo_nome'] ?> </td>
 
-                    <th><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal<?php echo $row['candidato_id'] ?>">Abrir</button></th>
-                    <!-- Modal -->
-                    <div class="modal fade" id="exampleModal<?php echo $row['candidato_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel"><?php echo $row['candidato_nome'] ?></h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <label><b>Nome:</b>&nbsp;</label><?php echo $row['candidato_nome'] ?> </br>
-                                    <label><b>Email:</b>&nbsp;</label> <?php echo $row['candidato_email'] ?></br>
-                                    <label><b>Telefone:</b>&nbsp;</label><?php echo $row['candidato_telefone'] ?> </br>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <th><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal<?php echo $row['candidato_id'] ?>">Abrir</button></th>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal<?php echo $row['candidato_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel"><?php echo $row['candidato_nome'] ?></h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label><b>Nome:</b>&nbsp;</label><?php echo $row['candidato_nome'] ?> </br>
+                                        <label><b>Email:</b>&nbsp;</label> <?php echo $row['candidato_email'] ?></br>
+                                        <label><b>Telefone:</b>&nbsp;</label><?php echo $row['candidato_telefone'] ?> </br>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- FIM MODAL-->
-                    <th><a href="<?php echo $row['candidato_id']; ?>" class="btn btn-success">Baixar</a></th>
-                    <th><a href=" <?php echo $row['candidato_id']; ?> " class="btn btn-danger">OFF</a></th>
+                        <!-- FIM MODAL-->
+                        <th><a href="<?php echo $row['candidato_id']; ?>" class="btn btn-success">Baixar</a></th>
+                        <th><a href=" <?php echo $row['candidato_id']; ?> " class="btn btn-danger">OFF</a></th>
+                    </tr>
+                <?php
+
+                        }
+                ?>
                 </tr>
-            <?php
-
-                    }
-            ?>
-            </tr>
-            </tbody>
-        </table>
-
+                </tbody>
+            </table>
+        </div>
         <!-- Fim Tabela -->
     </div>
 
